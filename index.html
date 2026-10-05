@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Boxing Championship: Larry vs. The Tickets</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        header {
+            background: linear-gradient(180deg, #bf1e2e, #1a1a1a);
+            padding: 20px;
+            border-bottom: 5px solid #ffd700;
+        }
+        h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            color: #ffd700;
+            text-shadow: 3px 3px #000;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 2px 2px #000;
+        }
+        /* Arena & Boxing Ring Layout */
+        .arena {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 10px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 600px;
+            background: #222;
+            border: 3px solid #ffd700;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            font-size: 1.8rem;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+        }
+        .ring-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            height: 400px;
+            background-color: #3a5fcd; /* Canvas color */
+            border: 15px solid #bf1e2e; /* Ring ropes border */
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            overflow: hidden;
+        }
+        /* Visual Ropes lines */
+        .ring-container::before {
+            content: '';
+            position: absolute;
+            top: 10%; bottom: 10%; left: 0; right: 0;
+            border-top: 4px solid #fff;
+            border-bottom: 4px solid #fff;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        /* Fighters */
+        .fighter {
+            position: absolute;
+            bottom: 40px;
+            width: 130px;
+            height: 180px;
+            transition: all 0.1s ease;
+        }
+        #larry {
+            left: 10%;
+            background: url('https://unsplash.com') center/cover no-repeat; /* Stand-in black cat */
+            border-radius: 10px;
+            border: 4px solid #00f;
+        }
+        /* Evil Larry feature override - long ears/snout vibe */
+        #larry::before {
+            content: '😾 LARRY';
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00f;
+            color: white;
+            font-size: 1rem;
+            padding: 2px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+        #ticket {
+            right: 10%;
+            background-color: #fffbcc;
+            border: 4px dashed #bf1e2e;
+            border-radius: 5px;
+            color: #000;
+            padding: 10px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 5px 5px 0px #000;
+        }
+        #ticket::before {
+            content: '🎫 THE TICKETS';
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #bf1e2e;
+            color: white;
+            font-size: 1rem;
+            padding: 2px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+        .ticket-text {
+            text-transform: uppercase;
+            color: red;
+            font-size: 0.9rem;
+            border-bottom: 2px dashed #000;
+            padding-bottom: 5px;
+        }
+        /* Clapping Cat Corner (The Hype Section) */
+        .hype-section {
+            margin-top: 25px;
+            background: #292929;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px dashed #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 700px;
+        }
+        .clapping-cat {
+            width: 80px;
+            height: 80px;
+            background: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 3px solid #ffd700;
+        }
+        /* Clapping Animation */
+        .clapping {
+            animation: clapAnim 0.2s infinite alternate;
+        }
+        @keyframes clapAnim {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15) rotate(5deg); }
+        }
+        .hype-bubble {
+            background: white;
+            color: black;
+            padding: 10px 15px;
+            border-radius: 20px;
+            position: relative;
+            font-size: 1.1rem;
+            max-width: 75%;
+        }
+        /* Action Controls */
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        .btn {
+            background-color: #ffd700;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-family: 'Impact', sans-serif;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 5px #b39700;
+            text-transform: uppercase;
+        }
+        .btn:active {
+            box-shadow: 0 2px #b39700;
+            transform: translateY(3px);
+        }
+        .btn-punch { background-color: #ff4500; color: #fff; box-shadow: 0 5px #b33000; }
+        .btn-punch:active { box-shadow: 0 2px #b33000; }
+        
+        /* Attack & Hit Animations */
+        .larry-punch {
+            animation: larryHit 0.2s ease-in-out;
+        }
+        @keyframes larryHit {
+            0% { left: 10%; }
+            50% { left: 50%; transform: rotate(-10deg) scale(1.1); }
+            100% { left: 10%; }
+        }
+        .ticket-hurt {
+            animation: shake 0.2s ease-in-out infinite;
+            background-color: #ffcccc !important;
+        }
+        @keyframes shake {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(0px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            100% { transform: translate(0px, 0px); }
+        }
+        .ko {
+            transform: rotate(90deg) translateY(50px) !important;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Meme Heavyweight Championship</h1>
+        <div class="subtitle">Larry vs. Overdue Citations</div>
+    </header>
+
+    <div class="arena">
+        <!-- Scoreboard -->
+        <div class="scoreboard">
+            <div>LARRY HP: <span id="larry-hp">100</span>%</div>
+            <div>TICKETS FINE: $<span id="ticket-fine">550</span></div>
+        </div>
+
+        <!-- Boxing Ring Canvas -->
+        <div class="ring-container">
+            <!-- Larry the Cat Fighter -->
+            <div id="larry" class="fighter"></div>
+
+            <!-- The Ticket Paper Fighter -->
+            <div id="ticket" class="fighter">
+                <div class="ticket-text">VIOLATION: EXISTING WHILE CAT</div>
+                <div>FINE: $550</div>
+                <div style="font-size:0.5rem; text-align:left;">PARKING IN A NO-LOAF ZONE.<br>SPEEDING VIA ZOOMIES.</div>
+                <div style="color:red; font-size:0.6rem;">OVERDUE</div>
+            </div>
+        </div>
+
+        <!-- The Clapping Cat Ring Girl / Referee Hype Corner -->
+        <div class="hype-section">
+            <div id="clapping-cat" class="clapping-cat">🐈‍⬛</div>
+            <div id="hype-text" class="hype-bubble">
+                *Aggressive clapping sounds* Let's see if Larry can beat the system! 👏🐾
+            </div>
+        </div>
+
+        <!-- Gameplay Controls -->
+        <div class="controls">
+            <button class="btn btn-punch" onclick="larryAttack()">Left Hook</button>
+            <button class="btn btn-punch" onclick="larryAttack()">Right Cross</button>
+            <button class="btn" onclick="resetMatch()">New Round</button>
+        </div>
+    </div>
+
+    <script>
+        let ticketFine = 550;
+        let isAttacking = false;
+        
+        const catQuotes = [
+            "👏 *FAST SARCASTIC CLAPPING INTENSIFIES* 👏",
+            "Give 'em the 1-2 combo, Larry! 👏🐾",
+            "That ticket didn't stand a chance! *Clap clap clap*",
+            "Knock that fine down to $0! 😼👏",
+            "Absolute peak performance! *Rhythmic clapping*"
+        ];
+
+        function larryAttack() {
+            if (isAttacking || ticketFine <= 0) return;
+            isAttacking = true;
+
+            const larry = document.getElementById('larry');
+            const ticket = document.getElementById('ticket');
+            const fineEl = document.getElementById('ticket-fine');
+            const clappingCat = document.getElementById('clapping-cat');v
